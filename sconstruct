@@ -1,0 +1,9 @@
+import os
+
+env = Environment(NT22RUN = os.environ['NT22RUN'])
+env.ParseConfig("root-config --glibs --cflags")
+env.Append(CCFLAGS = ['-O1'])
+
+Export('env')
+
+env.SConscript('sconscript', variant_dir='$NT22RUN/work/tmp/src/'+os.path.basename(os.getcwd()), duplicate=0)
