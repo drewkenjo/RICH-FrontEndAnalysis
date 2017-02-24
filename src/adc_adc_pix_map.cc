@@ -1,6 +1,6 @@
 #include<iostream>
 #include<stdint.h>
-#include<boost/unordered_map.hpp>
+#include<boost/container/flat_map.hpp>
 #include<list>
 #include<TFile.h>
 #include<TTree.h>
@@ -20,7 +20,7 @@ class goodRICHEvent:public RICHEvent{
   private:
 	unsigned char ipix[64];
 	int nasic;
-	boost::unordered_map<uint32_t, uint32_t> hh[NCHANNELS];
+	boost::container::flat_map<uint32_t, uint32_t> hh[NCHANNELS];
 };
 
 
