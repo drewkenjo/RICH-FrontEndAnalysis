@@ -1,6 +1,6 @@
 import os
 
-env = Environment(NT22RUN = os.environ['NT22RUN'])
+env = Environment(NT22RUN = os.environ['NT22RUN'], ENV = {'PATH' : os.environ['PATH']})
 env.ParseConfig("root-config --glibs --cflags")
 env.Append(CCFLAGS = ['-O1'])
 

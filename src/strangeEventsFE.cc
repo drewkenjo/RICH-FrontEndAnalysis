@@ -10,6 +10,12 @@
 
 using namespace RICHfrontend;
 
+struct edgeMarker{
+	int start;
+	int end;
+};
+
+
 class strangeRICHEvent:public RICHEvent{
   public:
 	strangeRICHEvent();
@@ -30,10 +36,6 @@ void strangeRICHEvent::Fill(rawEvent &rev)
 	RICHEvent::Fill(rev);
 
 	for(int ichan=0; ichan<NCHANNELS; ichan++){
-		struct edgeMarker{
-			int start;
-			int end;
-		};
 		std::vector<edgeMarker> marks;
 		bool isbad = false;
 
