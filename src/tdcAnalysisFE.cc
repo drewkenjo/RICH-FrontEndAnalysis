@@ -40,7 +40,7 @@ void goodRICHEvent::Fill(rawEvent &rev)
 	for(int iedge=0; iedge<ftdc[ichan].size(); iedge++)
 	if(fpolar[ichan][iedge]==fLeadingEdge
 		&& iedge<ftdc[ichan].size()-1
-		&& fpolar[ichan][iedge+1]==fFallingEdge
+		&& fpolar[ichan][iedge+1]==fTrailingEdge
 		){
 			ftime[ichan].push_back(ftdc[ichan][iedge]);
 			fdur[ichan].push_back(ftdc[ichan][iedge+1] - ftdc[ichan][iedge]);

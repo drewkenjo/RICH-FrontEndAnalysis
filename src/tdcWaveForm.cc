@@ -40,7 +40,7 @@ void goodRICHEvent::Fill(rawEvent &rev, int thr)
 	for(int iedge=0; iedge<ftdc[ichan].size(); iedge++)
 	if(fpolar[ichan][iedge]==fLeadingEdge
 		&& iedge<ftdc[ichan].size()-1
-		&& fpolar[ichan][iedge+1]==fFallingEdge
+		&& fpolar[ichan][iedge+1]==fTrailingEdge
 		){
 			int hittime = ftdc[ichan][iedge];
 			int hitduration = ftdc[ichan][iedge+1] - ftdc[ichan][iedge];

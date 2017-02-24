@@ -30,7 +30,7 @@ goodRICHEvent::goodRICHEvent(int _nasic):nasic(_nasic){
 	int ipix[] = {60, 58, 59, 57, 52, 50, 51, 49, 44, 42, 43, 41, 36, 34, 35, 33, 28, 26, 27, 25, 20, 18, 19, 17, 12, 10, 11, 9, 4, 2, 3, 1, 5, 7, 6, 8, 13, 15, 14, 16, 21, 23, 22, 24, 29, 31, 30, 32, 37, 39, 38, 40, 45, 47, 46, 48, 53, 55, 54, 56, 61, 63, 62, 64};
 	for(int ich=0;ich<NCHANNELS;ich++){
 		h_dt_t0_adc[ich]  = new TH3F(Form("h_dt_t0_adc_%03d",ich), Form("Channel %d, pixel %d;TDC hit, duration;TDC hit, leading time;ADC",ich,ipix[ich%64]),
-			100,0.5,100.5,		60, 90.5, 150.5,		340,450.5,2150.5);
+			100,0.5,100.5,		60, 90.5, 150.5,		380,250.5,2150.5);
 //			100,0.5,100.5,		275, 100.5, 1200.5,		340,450.5,2150.5);
 	}
 }
@@ -44,7 +44,7 @@ void goodRICHEvent::Fill(rawEvent &rev)
 		for(int iedge=0; iedge<ftdc[ichan].size(); iedge++)
 		if(fpolar[ichan][iedge]==fLeadingEdge
 			&& iedge<ftdc[ichan].size()-1
-			&& fpolar[ichan][iedge+1]==fFallingEdge
+			&& fpolar[ichan][iedge+1]==fTrailingEdge
 			){
 				ftime[ichan].push_back(ftdc[ichan][iedge]);
 				fdur[ichan].push_back(ftdc[ichan][iedge+1] - ftdc[ichan][iedge]);
@@ -96,6 +96,11 @@ goodRICHEvent::~goodRICHEvent(){
 		hadc0->SetLineStyle(2);
 		hadc0->SetLineWidth(2);
 		TH1* hadc1 = (TH1*) h3->Project3D("z1 NUF NOF");
+		double hmax = hadc1->GetMaximum();
+
+		hadc1->GetXaxis()->SetRange(hadc0->FindFirstBinAbove(hmax/50-50/hadc0->GetBinWidth(1)), hadc1->FindLastBinAbove(hmax/50));
+		hyz->GetXaxis()->SetRange(hadc0->FindFirstBinAbove(hmax/50-50/hadc0->GetBinWidth(1)), hadc1->FindLastBinAbove(hmax/50));
+
 		TH1* hadc2 = (TH1*) h3->Project3D("z2 NUF NOF");
 		hadc2->Reset();
 		hadc2->SetLineColor(kRed);
@@ -105,8 +110,7 @@ goodRICHEvent::~goodRICHEvent(){
 			for(int ibz=1;ibz<=h3->GetNbinsZ();ibz++)
 			for(int ien=0;ien<h3->GetBinContent(ibx,iby,ibz);ien++)
 				hadc2->Fill(hadc2->GetBinCenter(ibz));
-		double hmax = hadc1->GetMaximum();
-		hadc1->GetXaxis()->SetRange(hadc0->FindFirstBinAbove(0)-10, hadc1->FindLastBinAbove(hmax/50));
+
 		hadc1->Draw();
 //		for(int ibin=1;ibin<=hadc0->GetNbinsX();ibin++)
 //			std::cout<<"pavel:"<<ich<<":"<<ibin<<" "<<hadc0->GetBinContent(ibin)<<std::endl;

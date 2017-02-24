@@ -7,8 +7,8 @@ namespace RICHfrontend{
 		MAXEDGES = 2000};
 
  struct rawEvent{
-	Int_t trigID=0;
-	ULong64_t timeStamp=0;
+	Int_t trigID;
+	ULong64_t timeStamp;
 	UChar_t hold;
 
 	UShort_t fadc[NCHANNELS];
@@ -22,8 +22,8 @@ namespace RICHfrontend{
 
  class RICHEvent{
   protected:
-	bool fLeadingEdge = true;
-	bool fFallingEdge = false;
+	bool fLeadingEdge;
+	bool fTrailingEdge;
 
 	ULong64_t timeStamp;
 	Int_t trigID, hold;
@@ -36,7 +36,7 @@ namespace RICHfrontend{
 	std::vector<UShort_t> fdur[NCHANNELS];
 
   public:
-	RICHEvent(){};
+	RICHEvent():fLeadingEdge(true),fTrailingEdge(false){};
 
 	void Clear(){
 		trigID=0;

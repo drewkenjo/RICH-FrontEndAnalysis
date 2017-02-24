@@ -43,7 +43,7 @@ void strangeRICHEvent::Fill(rawEvent &rev)
 				isbad = true;
 			
 	 		if(fpolar[ichan][iedge]==fLeadingEdge){
-				if(iedge<ftdc[ichan].size()-1	&& fpolar[ichan][iedge+1]==fFallingEdge){
+				if(iedge<ftdc[ichan].size()-1	&& fpolar[ichan][iedge+1]==fTrailingEdge){
 					marks.push_back({ftdc[ichan][iedge], ftdc[ichan][iedge+1]});
 					iedge++;
 				}
