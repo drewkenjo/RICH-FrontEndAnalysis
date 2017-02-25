@@ -57,7 +57,7 @@ goodRICHEvent::~goodRICHEvent(){
 	tt->Branch("key", &key, "key/i");
 	tt->Branch("val", &val, "val/i");
 
-	for(int chan=0;chan<NCHANNELS;chan++)
+	for(chan=0;chan<NCHANNELS;chan++)
 	for (boost::container::flat_map<uint32_t, uint32_t>::iterator it=hh[chan].begin(); it!=hh[chan].end(); ++it){
 		key = it->first;
 		val = it->second;
