@@ -1,6 +1,7 @@
 #ifndef feio_hh
 #define feio_hh
 
+#include<stdint.h>
 
 namespace RICHfrontend{
  enum{	NCHANNELS = 192,
