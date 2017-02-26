@@ -4,14 +4,20 @@
 #include<TFile.h>
 #include<TTree.h>
 #include<TString.h>
+#include<TRegexp.h>
 #include<boost/container/flat_map.hpp>
 #include"feio.h"
 
 int main(int argc, char** argv)
 {
- int channel = TString(argv[1]).Atoi();
- if(channel<0 || channel > 191 || argc<3){
+ if(argc<3 || TString(argv[1]).Contains(TRegexp("[a-zA-Z]"))){
 	std::cerr<<"USAGE: "<<argv[0]<<" ch# root_filename[s]"<<std::endl;
+	exit(111);
+ }
+ int channel = TString(argv[1]).Atoi();
+ int nasic = TString(argv[2]).Contains("2ASIC") ? 2 : 3;
+ if(channel<0 || channel>191 || (nasic==2 && channel/64==1)){
+	std::cerr<<"you chose wrong channel"<<std::endl;
 	exit(111);
  }
 
