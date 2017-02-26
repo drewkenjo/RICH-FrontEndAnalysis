@@ -25,14 +25,12 @@ class goodRICHEvent:public RICHEvent{
 	TH2F* z_adc_adc[NCHANNELS];
 	TH2F* z_adc_pix[NCHANNELS];
 	int nasic;
-	int ipix[64];
+	uint8_t ipix[64];
 };
 
 
 goodRICHEvent::goodRICHEvent(int _nasic):nasic(_nasic){
-	int ipixels[] = {60, 58, 59, 57, 52, 50, 51, 49, 44, 42, 43, 41, 36, 34, 35, 33, 28, 26, 27, 25, 20, 18, 19, 17, 12, 10, 11, 9, 4, 2, 3, 1, 5, 7, 6, 8, 13, 15, 14, 16, 21, 23, 22, 24, 29, 31, 30, 32, 37, 39, 38, 40, 45, 47, 46, 48, 53, 55, 54, 56, 61, 63, 62, 64};
-	std::copy(ipixels, ipixels+64, ipix);
-
+	std::copy(chan2pix, chan2pix+64, ipix);
 
 	for(int ich=0;ich<NCHANNELS;ich++){
 		h_adc_adc[ich]  = new TH2F(Form("h_adc_adc_%03d",ich), Form("Channel %d, pixel %d;ADC;max ADC in MAPMT",ich,ipix[ich%64]),
@@ -49,6 +47,7 @@ goodRICHEvent::goodRICHEvent(int _nasic):nasic(_nasic){
 
 void goodRICHEvent::Fill(rawEvent &rev)
 {
+	return;
 	RICHEvent::Fill(rev);
 
 	struct adcmax{UShort_t fadc; int chan;};
@@ -80,6 +79,8 @@ void goodRICHEvent::Fill(rawEvent &rev)
 
 
 goodRICHEvent::~goodRICHEvent(){
+	return;
+
 	TString pdfname("adc_vs_maxadc.pdf");
 	TCanvas* c1 = new TCanvas("c1","c1",2000,800);
 	c1->Divide(3,2,.0001,.0001);

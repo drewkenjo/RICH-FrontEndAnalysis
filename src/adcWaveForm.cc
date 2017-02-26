@@ -22,10 +22,8 @@ class goodRICHEvent:public RICHEvent{
 };
 
 goodRICHEvent::goodRICHEvent(){
-	int ipix[] = {60, 58, 59, 57, 52, 50, 51, 49, 44, 42, 43, 41, 36, 34, 35, 33, 28, 26, 27, 25, 20, 18, 19, 17, 12, 10, 11, 9, 4, 2, 3, 1, 5, 7, 6, 8, 13, 15, 14, 16, 21, 23, 22, 24, 29, 31, 30, 32, 37, 39, 38, 40, 45, 47, 46, 48, 53, 55, 54, 56, 61, 63, 62, 64};
-
 	for(int ich=0;ich<NCHANNELS;ich++)
-		h2[ich]  = new TH2I(Form("h2_%03d",ich), Form("Channel %d, pixel %d; ADC",ich,ipix[ich%64]), maxhold, 0.5, maxhold+.5, 4300, -200.5, 4099.5 );
+		h2[ich]  = new TH2I(Form("h2_%03d",ich), Form("Channel %d, pixel %d; ADC",ich,chan2pix[ich%64]), maxhold, 0.5, maxhold+.5, 4300, -200.5, 4099.5 );
 }
 
 void goodRICHEvent::Fill(rawEvent &rev)

@@ -17,13 +17,12 @@ class goodRICHEvent:public RICHEvent{
 	void Fill(rawEvent&);
   private:
 	TH1I* h1[NCHANNELS];
-	int ipix[64];
+	uint8_t ipix[64];
 	int nasic;
 };
 
 goodRICHEvent::goodRICHEvent(int _nasic):nasic(_nasic){
-     int ipixel[] = {60, 58, 59, 57, 52, 50, 51, 49, 44, 42, 43, 41, 36, 34, 35, 33, 28, 26, 27, 25, 20, 18, 19, 17, 12, 10, 11, 9, 4, 2, 3, 1, 5, 7, 6, 8, 13, 15, 14, 16, 21, 23, 22, 24, 29, 31, 30, 32, 37, 39, 38, 40, 45, 47, 46, 48, 53, 55, 54, 56, 61, 63, 62, 64};
-	std::copy(ipixel, ipixel+64, ipix);
+	std::copy(chan2pix, chan2pix+64, ipix);
 
      for(int ich=0;ich<NCHANNELS;ich++)
 		h1[ich]  = new TH1I(Form("h1_%03d",ich), Form("Channel %d, pixel %d; ADC",ich,ipix[ich%64]), 4100, -0.5, 4099.5 );

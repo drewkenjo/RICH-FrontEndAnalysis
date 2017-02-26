@@ -51,11 +51,10 @@ int main(int argc, char** argv)
  h0->LabelsOption("a");
 
  int nasic = TString(argv[1]).Contains("2ASIC") ? 2 : 3;
- int ipix[] = {60, 58, 59, 57, 52, 50, 51, 49, 44, 42, 43, 41, 36, 34, 35, 33, 28, 26, 27, 25, 20, 18, 19, 17, 12, 10, 11, 9, 4, 2, 3, 1, 5, 7, 6, 8, 13, 15, 14, 16, 21, 23, 22, 24, 29, 31, 30, 32, 37, 39, 38, 40, 45, 47, 46, 48, 53, 55, 54, 56, 61, 63, 62, 64};
  TH2F* h2[NCHANNELS];
  for(int ich=0;ich<NCHANNELS;ich++){
 		int nconf = h0->GetNbinsX();
-		h2[ich]  = new TH2F(Form("h2_%03d",ich), Form("Channel %d, pixel %d; ADC",ich,ipix[ich%64]), 4100,0.5,4100.5, nconf, .5, nconf+.5);
+		h2[ich]  = new TH2F(Form("h2_%03d",ich), Form("Channel %d, pixel %d; ADC",ich,chan2pix[ich%64]), 4100,0.5,4100.5, nconf, .5, nconf+.5);
 		for(int iconf=1;iconf<=nconf;iconf++)
 			h2[ich]->GetYaxis()->SetBinLabel(iconf, h0->GetXaxis()->GetBinLabel(iconf));
  }

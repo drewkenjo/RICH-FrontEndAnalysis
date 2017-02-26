@@ -41,7 +41,6 @@ void goodRICHEvent::Fill(rawEvent &rev)
 
 void goodRICHEvent::Print()
 {
-     int ipixel[] = {60, 58, 59, 57, 52, 50, 51, 49, 44, 42, 43, 41, 36, 34, 35, 33, 28, 26, 27, 25, 20, 18, 19, 17, 12, 10, 11, 9, 4, 2, 3, 1, 5, 7, 6, 8, 13, 15, 14, 16, 21, 23, 22, 24, 29, 31, 30, 32, 37, 39, 38, 40, 45, 47, 46, 48, 53, 55, 54, 56, 61, 63, 62, 64};
 	TH2I* hperfile = new TH2I("hperfile", "laser exposure", nasic*8, 0.5,8*nasic+.5, 8, 0.5, 8.5);
 	for(int ichan=0;ichan<NCHANNELS;ichan++){
 		int ipmt = ichan/64;
@@ -49,7 +48,7 @@ void goodRICHEvent::Print()
 		if(nasic==2 && ipmt==1) continue;
 		if(nasic==2 && ipmt==2) ipmt--;
 
-		int ipx = ipixel[ichan%64]-1;
+		int ipx = chan2pix[ichan%64]-1;
 		int icol = ipx%8+1 + (nasic-ipmt-1)*8;
 		int irow = ipx/8+1;
 
