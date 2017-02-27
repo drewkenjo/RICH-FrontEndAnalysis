@@ -11,17 +11,12 @@
 
 int main(int argc, char** argv)
 {
- UInt_t key, val;
- UChar_t chan;
- TChain* tt = new TChain("tmap");
+ UShort_t fadc[RICHfrontend::NCHANNELS];
+ TChain* tt = new TChain("h22");
  for(int iarg=1;iarg<argc;iarg++)
 	tt->AddFile(argv[iarg]);
- tt->SetBranchAddress("key", &key);
- tt->SetBranchAddress("val", &val);
+ tt->SetBranchAddress("fadc", fadc);
  long unsigned int nen = tt->GetEntries();
- TString title(tt->GetTitle());
- int pixel = TString(title(TRegexp("[0-9]*"))).Atoi();
-
 
 //////////////////////////////////////////////////////////////
  TH1I *hadc[64];
@@ -32,16 +27,17 @@ int main(int argc, char** argv)
 	zadc2adc[ipix] = new TH2I(Form("zadc2adc_%02d",ipix), Form("adc vs adc for pix %02d",ipix), 750,0.5,1500.5, 750,0.5,1500.5);
  }
 
+ int channel = 42;
+ int iasic = channel/64;
+
  for(int ien=0;ien<nen;ien++){
 	tt->GetEntry(ien);
 
-	UShort_t adc1 = key & 0xfff;
-	UShort_t adc0 = (key>>12) & 0xfff;
-	UChar_t ipix = ((key>>24) & 0xff)-1;
-
-	hadc[ipix]->Fill(adc1, val);
-	hadc2adc[ipix]->Fill(adc0, adc1, val);
-	zadc2adc[ipix]->Fill(adc0, adc1, val);
+	for(int ich = iasic*64; ich<(iasic+1)*64; ich++){
+		hadc[ich]->Fill(fadc[channel]);
+		hadc2adc[ich]->Fill(fadc[channel], fadc[ich]);
+		zadc2adc[ich]->Fill(fadc[channel], fadc[ich]);
+	}
  }
 
  delete tt;
@@ -66,7 +62,7 @@ int main(int argc, char** argv)
  }
  c1->Print("1.pdf");
 
- double xmaxbin = zadc2adc[pixel]->ProjectionX()->GetMaximumBin();
+ double xmaxbin = zadc2adc[channel]->ProjectionX()->GetMaximumBin();
  double ymaxbin[64];
  for(int ipix=0;ipix<64;ipix++){
 	c1->cd(ipix+1);
