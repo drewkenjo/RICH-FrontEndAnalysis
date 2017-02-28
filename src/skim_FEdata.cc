@@ -27,7 +27,7 @@ int main(int argc, char** argv)
  TTree* tt = (TTree*) h22->CloneTree(0);
 
  unsigned long int nen = h22->GetEntries();
- for(int ien=0;ien<std::max(1000000.0, (double) nen);ien++){
+ for(int ien=0;ien<std::min(1000000.0, (double) nen);ien++){
 	h22->GetEntry(ien);
 	for(int ich=0;ich<RICHfrontend::NCHANNELS;ich++)
 		h1[ich]->Fill(fadc[ich]);
@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 	h1[ich]->GetXaxis()->SetRange(h1[ich]->FindFirstBinAbove(0.001*ymax)-5, h1[ich]->FindLastBinAbove(0.001*ymax)+5);
 	h1[ich]->Fit(f1,"Q");
 
-	m3sig[ich] = f1->GetParameter(1) + 3*f1->GetParameter(2);
+	m3sig[ich] = f1->GetParameter(1) + 4*fabs(f1->GetParameter(2));
 	delete h1[ich];
  }
 
@@ -50,7 +50,6 @@ int main(int argc, char** argv)
 		tt->Fill();
 		break;
 	}
-	
  }
  ff->Write();
 
