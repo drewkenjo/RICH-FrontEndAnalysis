@@ -17,6 +17,7 @@ int main(int argc, char** argv)
  TF1* f1 = new TF1("f1","gaus",0,1000);
  UShort_t m3sig[RICHfrontend::NCHANNELS]={};
 
+ int nasic = TString(argv[1]).Contains("2ASIC") ? 2 : 3;
  UShort_t fadc[RICHfrontend::NCHANNELS];
  TChain* h22 = new TChain("h22");
  for(int iarg=1;iarg<argc;iarg++)
@@ -29,8 +30,10 @@ int main(int argc, char** argv)
  unsigned long int nen = h22->GetEntries();
  for(int ien=0;ien<std::min(1000000.0, (double) nen);ien++){
 	h22->GetEntry(ien);
-	for(int ich=0;ich<RICHfrontend::NCHANNELS;ich++)
+	for(int ich=0;ich<RICHfrontend::NCHANNELS;ich++){
 		h1[ich]->Fill(fadc[ich]);
+		if(nasic==2 && ich==63) ich+=64;
+	}
  }
 
  for(int ich=0;ich<RICHfrontend::NCHANNELS;ich++){
@@ -40,15 +43,19 @@ int main(int argc, char** argv)
 
 	m3sig[ich] = (UShort_t) (f1->GetParameter(1) + 4*fabs(f1->GetParameter(2)));
 	delete h1[ich];
+
+	if(nasic==2 && ich==63) ich+=64;
  }
 
  for(int ien=0;ien<nen;ien++){
 	h22->GetEntry(ien);
 
-	for(int ich=0;ich<RICHfrontend::NCHANNELS;ich++)
-	if(fadc[ich] > m3sig[ich]){
-		tt->Fill();
-		break;
+	for(int ich=0;ich<RICHfrontend::NCHANNELS;ich++){
+		if(fadc[ich] > m3sig[ich]){
+			tt->Fill();
+			break;
+		}
+		if(nasic==2 && ich==63) ich+=64;
 	}
  }
  ff->Write();
