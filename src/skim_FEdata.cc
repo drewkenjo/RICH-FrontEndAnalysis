@@ -15,7 +15,7 @@ int main(int argc, char** argv)
  for(int ich=0;ich<RICHfrontend::NCHANNELS;ich++)
 	h1[ich] = new TH1I(Form("h1_%03d",ich), Form("channel %03d",ich), 400,300.5,700.5);
  TF1* f1 = new TF1("f1","gaus",0,1000);
- double m3sig[RICHfrontend::NCHANNELS]={};
+ UShort_t m3sig[RICHfrontend::NCHANNELS]={};
 
  UShort_t fadc[RICHfrontend::NCHANNELS];
  TChain* h22 = new TChain("h22");
@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 	h1[ich]->GetXaxis()->SetRange(h1[ich]->FindFirstBinAbove(0.001*ymax)-5, h1[ich]->FindLastBinAbove(0.001*ymax)+5);
 	h1[ich]->Fit(f1,"Q");
 
-	m3sig[ich] = f1->GetParameter(1) + 4*fabs(f1->GetParameter(2));
+	m3sig[ich] = (UShort_t) (f1->GetParameter(1) + 4*fabs(f1->GetParameter(2)));
 	delete h1[ich];
  }
 
