@@ -3,3 +3,4 @@
 !.gitignore
 !src
 !scons*
+!README.md
