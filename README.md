@@ -10,6 +10,6 @@
 - [x] led1 - med stat, 100 repetitions x 100k events, LED, gain: [32-224, step 32], threshold: [250-650, step 50], 1000 V, 2ASIC
 
 - [x] ped2 - high stat, 1000 reps x 100k events, no light source, gain: 64, threshold: [250-650, step 50], 1000 V, 3ASIC
-- [] ped0 - low stat, 10 reps x 100k events, no light source, gain: [32-224, step 32], threshold: [250-650, step 50], 1000,1050,1075,1100 V, 3ASIC
+- [ ] ped0 - low stat, 10 reps x 100k events, no light source, gain: [32-224, step 32], threshold: [250-650, step 50], 1000,1050,1075,1100 V, 3ASIC
 
 
