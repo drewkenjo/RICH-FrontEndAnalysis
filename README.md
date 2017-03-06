@@ -1,5 +1,5 @@
 ## Preliminary studies of Front End electronics with RICH Black Box
-#####Data Runs:
+####Data Runs:
 * OD54+diffuser runs, **gain:** [32-224, step 32], **threshold:** [250-650, step 50]
   * - [x] run0 - low stat, 10 repetitions x 100k events, **hv:** 1000 V, ASIC: 2 and 3
   * - [x] run1 - med stat, 100 repetitions x 100k events, **hv:** 1000 V, ASIC: 2 and 3
