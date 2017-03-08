@@ -37,7 +37,7 @@ int main(int argc, char** argv)
 	zadc2adc[ipix] = new TH2I(Form("zadc2adc_%02d",ipix), Form("adc vs adc for pix %02d",ipix%64+1), 750,0.5,1500.5, 750,0.5,1500.5);
  }
 
- for(int ien=0;ien<nen;ien++){
+ for(long unsigned int ien=0;ien<nen;ien++){
 	tt->GetEntry(ien);
 
 	UShort_t adc1 = key & 0xfff;

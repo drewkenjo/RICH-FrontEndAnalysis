@@ -34,7 +34,7 @@ int main(int argc, char** argv)
  boost::container::flat_map<uint32_t, uint32_t> hmap;
 
  long unsigned int nen = tt->GetEntries();
- for(int ien=0;ien<nen;ien++){
+ for(long unsigned int ien=0;ien<nen;ien++){
 	tt->GetEntry(ien);
 	if(chan==channel)
 		hmap[key] += val;

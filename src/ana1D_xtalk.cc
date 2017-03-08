@@ -60,7 +60,7 @@ int main(int argc, char** argv)
  }
 
  long unsigned int nen = tt->GetEntries();
- for(int ien=0;ien<std::min(100000.0,(double)nen);ien++){
+ for(long unsigned int ien=0;ien<std::min(100000.0,(double)nen);ien++){
 	tt->GetEntry(ien);
 
 	for(int ich=0;ich<NPIXELS;ich++){
@@ -75,13 +75,13 @@ int main(int argc, char** argv)
 	double xped = hped[ipix]->GetMaximumBin();
 	hped[ipix]->GetXaxis()->SetRange(xped-10, xped+10);
 	f1->SetParameters(hped[ipix]->GetEntries(), hped[ipix]->GetMean(), hped[ipix]->GetRMS());
-	hped[ipix]->Fit(f1,"Q");
+	hped[ipix]->Fit(f1,"QN");
 
 	mm[ipix] = f1->GetParameter(1);
 	m4sig[ipix] = f1->GetParameter(1)+10*fabs(f1->GetParameter(2));
  }
 
- for(int ien=0;ien<nen;ien++){
+ for(long unsigned int ien=0;ien<nen;ien++){
 	tt->GetEntry(ien);
 
 	for(int ich=0;ich<NPIXELS;ich++){

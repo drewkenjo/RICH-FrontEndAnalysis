@@ -130,7 +130,7 @@ int main(int argc, char** argv)
 
 ////////////////////////////////////////////////////
  unsigned long int nen = h22->GetEntries();
- for(int ien=0;ien<std::min(1000000.0, (double) nen);ien++){
+ for(long unsigned int ien=0;ien<std::min(1000000.0, (double) nen);ien++){
 	h22->GetEntry(ien);
 	for(int ich=0;ich<NCHANNELS;ich++){
 		h1[ich]->Fill(rawEv.fadc[ich]);
@@ -154,7 +154,7 @@ int main(int argc, char** argv)
 
 ////////////////////////////////////////////////////
  skimmer skimEv(fname, m4sig);
- for(int ien=0;ien<nen;ien++){
+ for(long unsigned int ien=0;ien<nen;ien++){
 	h22->GetEntry(ien);
 	skimEv.Fill(rawEv);
  }

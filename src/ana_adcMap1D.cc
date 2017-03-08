@@ -23,7 +23,7 @@ int main(int argc, char** argv)
  TH1I *zadc0 = new TH1I("zadc0", "adc for pix", 1000,0.5,1000.5);
 
  long unsigned int nen = tt->GetEntries();
- for(int ien=0;ien<nen;ien++){
+ for(long unsigned int ien=0;ien<nen;ien++){
 	tt->GetEntry(ien);
 
 	hadc0->Fill(fadc[channel]);
