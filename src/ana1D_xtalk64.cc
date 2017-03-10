@@ -69,7 +69,7 @@ int main(int argc, char** argv)
 	ss = fabs(f1->GetParameter(2));
 
 	pedm0[ipix] = mm;
-	pedm4[ipix] = mm+4*ss;
+	pedm4[ipix] = mm+3*ss;
 
 	hspe[ipix]->GetXaxis()->SetRangeUser(mm+6*ss, 3000);
 	double amp = (hspe[ipix]->GetMean()-mm);
@@ -92,9 +92,9 @@ int main(int argc, char** argv)
 
 	for(int isig=0;isig<5;isig++){
 		xadc[ipix][isig] = new TH1I(Form("xadc%02d%d",ipix,isig), Form("adc pix %02d, %d signals in PMT",ipix+1, isig), dfmax, 0.5+pedm0[ipix]-xoffset, 0.5+pedm0[ipix]+dfmax-xoffset);
-		xadc[ipix][isig]->SetLineWidth(2);
 		xadc[ipix][isig]->SetLineColor(1+isig);
-		xadc[ipix][isig]->SetLineStyle(2);
+		xadc[ipix][isig]->SetLineStyle(3);
+		xadc[ipix][isig]->SetLineWidth(2);
 	}
  }
 
@@ -125,8 +125,9 @@ int main(int argc, char** argv)
 
 			if(jpix==ipix) continue;
 
-			if((fadc[jch] > pedm4[jpix] && fadc[ich] < pedm4[ipix]) ||
-				(fadc[ich] > pedm4[ipix] && fadc[jch] > ((fadc[ich]-pedm0[ipix])+pedm4[jpix]))){
+			if(fadc[jch] > pedm4[jpix]){
+//			if((fadc[jch] > pedm4[jpix] && fadc[ich] < pedm4[ipix]) ||
+//				(fadc[ich] > pedm4[ipix] && fadc[jch] > ((fadc[ich]-pedm0[ipix])+pedm4[jpix]))){
 					noAdjacentSignal = false;
 					break;
 			}
@@ -140,7 +141,15 @@ int main(int argc, char** argv)
 				if(jpix==ipix) continue;
 				int jch = pix2chan[jpix];
 
-				if(fadc[jch] > pedm4[jpix])
+/*
+				if((fadc[jch] > pedm4[jpix] && fadc[ich] < pedm4[ipix]) ||
+					(fadc[ich] > pedm4[ipix] && fadc[jch] > ((fadc[ich]-pedm0[ipix])+pedm4[jpix]))){
+						signalsInMAPMT++;
+						break;
+				}
+*/
+
+				if(fadc[jch] > pedm0[jpix] + 5*(pedm4[jpix]-pedm0[jpix]))
 						signalsInMAPMT++;
 			}
 
@@ -153,9 +162,9 @@ int main(int argc, char** argv)
 
 
 //////////////////////////////////////////////////////////////
- gStyle->SetLineScalePS(2);
+ gStyle->SetLineScalePS(1.2);
  gStyle->SetOptStat(0);
- gStyle->SetPadTopMargin(0);
+ gStyle->SetPadLeftMargin(0.05);
  gStyle->SetPadRightMargin(0);
 
  TLegend* leg = new TLegend(0.65,0.7,1.0,0.9);
@@ -172,19 +181,19 @@ int main(int argc, char** argv)
  for(int ipix=0;ipix<64;ipix++){
 	c1->cd(1)->SetLogy();
 	gPad->SetBottomMargin(0);
-	gPad->SetTopMargin(0.1);
 	gPad->SetGrid();
 
 	gPad->DrawFrame(pedm0[ipix]-0.1*dfmax, 0.15, pedm0[ipix]+.9*dfmax, zadc[ipix]->GetMaximum())->SetTitle(Form("pixel %d",ipix+1));
 	zadc[ipix]->Draw("same");
 	xadc9[ipix]->Draw("same");
-	for(int isig=0;isig<1;isig++)
+	for(int isig=0;isig<5;isig++)
 		xadc[ipix][isig]->Draw("same");
 
 	leg->Draw();
 
 	/////////////////////////////
 	c1->cd(2);
+	gPad->SetTopMargin(0);
 	gPad->SetGrid();
 
 	zadc[ipix]->GetXaxis()->SetRangeUser(pedm4[ipix]+0.2*dfmax, pedm0[ipix]+dfmax*.85);
@@ -194,7 +203,7 @@ int main(int argc, char** argv)
 	gPad->DrawFrame(pedm0[ipix]-0.1*dfmax, 0.0, pedm0[ipix]+dfmax*.9, 1.3*ymax)->SetTitle(";ADC");
 	zadc[ipix]->Draw("same");
 	xadc9[ipix]->Draw("same");
-	for(int isig=0;isig<1;isig++)
+	for(int isig=0;isig<5;isig++)
 		xadc[ipix][isig]->Draw("same");
 
 	c1->Print(pdfname);
