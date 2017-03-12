@@ -146,10 +146,12 @@ int main(int argc, char** argv)
 	h1[ich]->Fit(f1,"Q");
 
 	m4sig[ich] = (UShort_t) (f1->GetParameter(1) + 4*fabs(f1->GetParameter(2)));
-	delete h1[ich];
 
 	if(nasic==2 && ich==63) ich+=64;
  }
+
+ for(int ich=0;ich<NCHANNELS;ich++)
+	delete h1[ich];
 
 
 ////////////////////////////////////////////////////
