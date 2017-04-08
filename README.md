@@ -6,7 +6,8 @@
   * - [x] run4 - med stat, 100 repetitions x 100k events, ASIC: 3
 
 * diffuser50 runs, **gain:** 64, **threshold:** 250, **ASIC:** 3
-  * - [ ] run5 - med stat, 100 repetitions x 100k events, **hv:** 1000,1050,1075,1100 V, **OD:** 46,50,54
+  * - [x] run5 - med stat, 100 repetitions x 100k events, **hv:** 1000,1050,1075,1100 V, **OD:** 46,50,54
+  * - [x] run6 - med stat, 100 repetitions x 100k events, **hv:** 1000 V, **OD:** 54, gain maps
 
 * low light intensity, achieved by "wrong" laser position, **hv:** 1000 V, ASIC: 3
   * - [x] run2 - high stat, 1000 repetitions x 100k events, **gain:** 32 and 64, **threshold:** [250-650, step 50]
